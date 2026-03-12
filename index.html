@@ -977,213 +977,231 @@
     }
 
     @media (max-width: 780px){
-      
+  html, body{
+    height:auto;
+    min-height:100%;
+  }
 
-      .app{
-        height:auto;
-        min-height:100vh;
-      }
+  body{
+    overflow:auto;
+  }
 
-      .site-header{
-        position:sticky;
-        top:0;
-      }
-    .site-header{
-  position:sticky;
-  top:0;
-  padding:16px 14px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:14px;
+  .app{
+    height:auto;
+    min-height:100vh;
+  }
+
+  .site-header{
+    position:sticky;
+    top:0;
+    padding:16px 14px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    background:rgba(255,255,255,.96);
+    z-index:30;
+  }
+
+  .brandlogo{
+    height:auto;
+    max-width:240px;
+    width:78%;
+    margin:0 auto;
+  }
+
+  .main-nav{
+    width:100%;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+  }
+
+  .nav-btn{
+    width:100%;
+    min-height:50px;
+    padding:12px 10px;
+    font-size:10px;
+    letter-spacing:.10em;
+    text-align:center;
+  }
+
+  .viewport{
+    flex:1 1 auto;
+    overflow:hidden;
+    position:relative;
+    min-height:calc(100vh - 150px);
+  }
+
+  .track{
+    height:100%;
+    display:flex;
+    width:400vw;
+    transition:transform .55s ease;
+  }
+
+  .panel{
+    width:100vw;
+    flex:0 0 100vw;
+    height:auto;
+    min-height:calc(100vh - 150px);
+    overflow:auto;
+    padding:20px 14px 28px;
+    scroll-behavior:smooth;
+  }
+
+  .panel-inner{
+    width:100%;
+    max-width:100%;
+    margin:0 auto;
+  }
+
+  .home-copy{
+    max-width:100%;
+  }
+
+  h1{
+    font-size:42px;
+    line-height:1;
+  }
+
+  .lead{
+    font-size:15px;
+    line-height:1.7;
+  }
+
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  .hero-actions{
+    flex-direction:column;
+  }
+
+  .hero-actions .btn{
+    width:100%;
+  }
+
+  .hero-card{
+    padding:14px;
+  }
+
+  .hero-inner{
+    grid-template-columns:1fr;
+  }
+
+  .hero-image{
+    min-height:260px;
+    padding:16px;
+  }
+
+  .hero-image img{
+    max-width:78%;
+    max-height:240px;
+  }
+
+  .hero-copy{
+    min-height:auto;
+    height:auto;
+    padding:20px;
+  }
+
+  .benefits-premium,
+  .products-grid,
+  .info-grid,
+  .contact-wrap{
+    grid-template-columns:1fr;
+  }
+
+  .benefit-card{
+    min-height:auto;
+  }
+
+  .section-top{
+    display:block;
+  }
+
+  .section-desc{
+    max-width:100%;
+    margin-top:12px;
+  }
+
+  .catalog-toolbar{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .catalog-filters{
+    flex-direction:column;
+  }
+
+  .catalog-filters select{
+    width:100%;
+    min-width:100%;
+  }
+
+  .product-card h3,
+  .benefit-card h3,
+  .info-card h3{
+    font-size:24px;
+  }
+
+  .hero-copy h2{
+    font-size:38px;
+  }
+
+  .product-info-overlay{
+    opacity:1;
+    transform:none;
+    position:relative;
+    inset:auto;
+    background:linear-gradient(180deg, rgba(23,23,23,.94) 0%, rgba(23,23,23,.98) 100%);
+  }
+
+  .mobile-hint{
+    display:none;
+  }
+
+  .lux-footer{
+    margin-top:24px;
+  }
+
+  .footer-top,
+  .footer-main,
+  .footer-bottom{
+    padding-left:16px;
+    padding-right:16px;
+  }
+
+  .footer-top,
+  .footer-main{
+    grid-template-columns:1fr;
+  }
+
+  .footer-news,
+  .footer-social{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .footer-cta{
+    width:100%;
+  }
+
+  .footer-logo{
+    width:160px;
+  }
+
+  .payment-badges{
+    gap:8px;
+  }
+
+  .pay-badge{
+    min-width:auto;
+    flex:1 1 calc(50% - 8px);
+  }
 }
-
-.brandlogo{
-  height:auto;
-  max-width:240px;
-  width:78%;
-  margin:0 auto;
-}
-.main-nav{
-  width:100%;
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-}
-
-.nav-btn{
-  width:100%;
-  min-height:50px;
-  padding:12px 10px;
-  font-size:10px;
-  letter-spacing:.10em;
-  text-align:center;
-}
-.panel{
-  width:100%;
-  height:auto;
-  min-height:auto;
-  overflow:visible;
-  padding:22px 14px 30px;
-}
-
-.panel-inner{
-  width:100%;
-  max-width:100%;
-  margin:0 auto;
-}
-
-.home-copy{
-  max-width:100%;
-}
-
-h1{
-  font-size:42px;
-  line-height:.1;
-}
-
-.lead{
-  font-size:15px;
-  line-height:1.7;
-}
-
-.stats{
-  grid-template-columns:1fr;
-}
-
-.hero-actions{
-  flex-direction:column;
-}
-
-.hero-actions .btn{
-  width:100%;
-}
-
-.hero-card{
-  padding:14px;
-}
-
-.hero-inner{
-  grid-template-columns:1fr;
-}
-
-.hero-image{
-  min-height:260px;
-  padding:16px;
-}
-
-.hero-image img{
-  max-width:78%;
-  max-height:240px;
-}
-
-.hero-copy{
-  min-height:auto;
-  height:auto;
-  padding:20px;
-}
-
-.benefits-premium,
-.products-grid,
-.info-grid,
-.contact-wrap{
-  grid-template-columns:1fr;
-}
-
-.benefit-card{
-  min-height:auto;
-}
-
-.section-top{
-  display:block;
-}
-
-.section-desc{
-  max-width:100%;
-  margin-top:12px;
-}
-.catalog-toolbar{
-  flex-direction:column;
-  align-items:stretch;
-}
-
-.catalog-filters{
-  flex-direction:column;
-}
-
-.catalog-filters select{
-  width:100%;
-  min-width:100%;
-}
-.products-grid{
-  grid-template-columns:1fr;
-}
-
-.info-grid{
-  grid-template-columns:1fr;
-}
-
-.contact-wrap{
-  grid-template-columns:1fr;
-}
-      .main-nav{
-        gap:10px;
-      }
-
-      .nav-btn{
-        padding:10px 12px;
-        font-size:10px;
-        letter-spacing:.12em;
-      }
-
-      .viewport{
-  flex:1 1 auto;
-  overflow:hidden;
-  position:relative;
-}
-
-.track{
-  height:100%;
-  display:flex;
-  width:400vw;
-  transform:translateX(0);
-  transition:transform .55s ease;
-}
-
-.panel{
-  width:100vw;
-  height:100%;
-  min-height:100%;
-  overflow:auto;
-  padding:20px 14px 28px;
-  flex:0 0 100vw;
-}
-
-      .hero-image{
-        min-height:320px;
-      }
-
-      .stats,
-      .products-grid,
-      .benefits-premium{
-        grid-template-columns:1fr;
-      }
-
-      .product-card h3,
-      .benefit-card h3,
-      .info-card h3{
-        font-size:24px;
-      }
-
-      .hero-copy h2{
-        font-size:38px;
-      }
-
-      .mobile-hint{
-  display:none;
-}
-    }
   </style>
 </head>
 <body>
@@ -1831,6 +1849,7 @@ if (searchInput && categoryFilter && sortFilter && productsGrid) {
 </body>
 
 </html>
+
 
 
 
