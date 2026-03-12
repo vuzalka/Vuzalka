@@ -113,7 +113,67 @@
       width:min(1220px,100%);
       margin:0 auto;
     }
+.hero-featured-bg{
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(23,23,23,.08);
+  padding:42px;
+  background:#111;
+  min-height:520px;
+  display:flex;
+  align-items:center;
+}
 
+.hero-featured-bg::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(rgba(10,10,10,.40), rgba(10,10,10,.40)),
+    url("assets/fondo-inicio.jpg") center center / cover no-repeat;
+  transform:scale(1.08);
+  animation:heroZoom 14s ease-in-out infinite alternate;
+}
+
+.hero-featured-bg::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(90deg, rgba(0,0,0,.45) 0%, rgba(0,0,0,.18) 45%, rgba(0,0,0,.05) 100%);
+}
+
+.hero-featured-bg .home-copy{
+  position:relative;
+  z-index:2;
+  max-width:900px;
+}
+
+.hero-featured-bg .eyebrow{
+  background:rgba(255,255,255,.08);
+  color:rgba(255,255,255,.88);
+  border:1px solid rgba(255,255,255,.15);
+}
+
+.hero-featured-bg h1{
+  color:#ffffff;
+}
+
+.hero-featured-bg .lead{
+  color:rgba(255,255,255,.82);
+}
+
+.hero-featured-bg .home-copy::after{
+  background:rgba(159,29,36,.75);
+}
+
+@keyframes heroZoom{
+  0%{
+    transform:scale(1.03) translateX(0);
+  }
+  100%{
+    transform:scale(1.12) translateX(-1.5%);
+  }
+}
     .hero-grid{
   display:grid;
   grid-template-columns:1.2fr .8fr;
@@ -1169,6 +1229,7 @@ h1{
 </body>
 
 </html>
+
 
 
 
