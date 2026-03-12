@@ -1140,22 +1140,27 @@ h1{
       }
 
       .viewport{
-        overflow:auto;
-      }
+  flex:1 1 auto;
+  overflow:hidden;
+  position:relative;
+}
 
-      .track{
-        width:100%;
-        display:block;
-        transform:none !important;
-      }
+.track{
+  height:100%;
+  display:flex;
+  width:400vw;
+  transform:translateX(0);
+  transition:transform .55s ease;
+}
 
-      .panel{
-        width:100%;
-        height:auto;
-        min-height:auto;
-        overflow:visible;
-        padding:24px 16px 30px;
-      }
+.panel{
+  width:100vw;
+  height:100%;
+  min-height:100%;
+  overflow:auto;
+  padding:20px 14px 28px;
+  flex:0 0 100vw;
+}
 
       .hero-image{
         min-height:320px;
@@ -1831,6 +1836,7 @@ if (searchInput && categoryFilter && sortFilter && productsGrid) {
 </body>
 
 </html>
+
 
 
 
