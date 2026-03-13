@@ -685,7 +685,70 @@
       text-transform:uppercase;
       color:var(--wine);
     }
+.product-stock{
+  margin-top:12px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  padding-top:12px;
+  border-top:1px solid rgba(23,23,23,.08);
+}
 
+.stock-status{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size:12px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  font-weight:600;
+}
+
+.stock-dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  display:inline-block;
+}
+
+.stock-status.in-stock{
+  color:#1f6b3b;
+}
+
+.stock-status.in-stock .stock-dot{
+  background:#1f6b3b;
+  box-shadow:0 0 0 4px rgba(31,107,59,.12);
+}
+
+.stock-status.low-stock{
+  color:#9a6a00;
+}
+
+.stock-status.low-stock .stock-dot{
+  background:#c58a00;
+  box-shadow:0 0 0 4px rgba(197,138,0,.14);
+}
+
+.stock-status.out-stock{
+  color:#9f1d24;
+}
+
+.stock-status.out-stock .stock-dot{
+  background:#9f1d24;
+  box-shadow:0 0 0 4px rgba(159,29,36,.12);
+}
+
+.stock-amount{
+  font-size:13px;
+  color:rgba(23,23,23,.68);
+}
+
+.stock-amount strong{
+  color:#171717;
+  font-weight:700;
+}
     .product-actions{
       display:flex;
       gap:10px;
@@ -3158,6 +3221,7 @@ window.addEventListener('load', () => {
 </body>
 
 </html>
+
 
 
 
