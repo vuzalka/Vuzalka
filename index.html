@@ -2895,6 +2895,18 @@ const db = firebase.firestore();
     let currentIndex = 0;
     const siteHeader = document.querySelector('.site-header');
 
+    const panelHashes = ['inicio', 'perfumes', 'quienes-somos', 'contacto'];
+
+function getHashFromIndex(index) {
+  return panelHashes[index] || 'inicio';
+}
+
+function getIndexFromHash(hash) {
+  const cleanHash = (hash || '').replace('#', '').trim().toLowerCase();
+  const index = panelHashes.indexOf(cleanHash);
+  return index >= 0 ? index : 0;
+}
+    
 function updateMobileHeaderHeight() {
   if (!siteHeader) return;
 
@@ -2909,7 +2921,7 @@ function updateMobileHeaderHeight() {
 }
 
     
-    function goToPanel(index){
+    function goToPanel(index, updateHash = true){
   currentIndex = index;
   track.style.transform = `translateX(-${index * 100}vw)`;
 
@@ -2934,21 +2946,26 @@ function updateMobileHeaderHeight() {
     behavior: 'smooth'
   });
 
- const viewport = document.querySelector('.viewport');
-if (viewport) {
-  viewport.scrollTo({
-    top: 0,
-    left: 0,
-    behavior: 'smooth'
-  });
-  viewport.classList.remove('header-hidden');
-}
+  const viewport = document.querySelector('.viewport');
+  if (viewport) {
+    viewport.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+    viewport.classList.remove('header-hidden');
+  }
 
-if (siteHeader) {
-  siteHeader.classList.remove('hide-on-scroll');
-}
+  if (siteHeader) {
+    siteHeader.classList.remove('hide-on-scroll');
+  }
 
   lastMobileScrollTop = 0;
+
+  if (updateHash) {
+    const newHash = getHashFromIndex(index);
+    history.replaceState(null, '', `#${newHash}`);
+  }
 }
 
     navButtons.forEach((btn) => {
@@ -3790,12 +3807,19 @@ updateCartUI();
 
 window.addEventListener('load', async () => {
   updateMobileHeaderHeight();
-  goToPanel(0);
+
+  const initialIndex = getIndexFromHash(window.location.hash);
+  goToPanel(initialIndex, false);
+
   bindPanelScrollForMobileHeader();
   await loadProductsFromFirestore();
 });
 window.addEventListener('resize', () => {
   updateMobileHeaderHeight();
+});
+    window.addEventListener('hashchange', () => {
+  const index = getIndexFromHash(window.location.hash);
+  goToPanel(index, false);
 });
   </script>
   
