@@ -3209,47 +3209,10 @@ const categoryFilter = document.getElementById('categoryFilter');
 const sortFilter = document.getElementById('sortFilter');
 const productsGrid = document.getElementById('productsGrid');
 
-if (searchInput && categoryFilter && sortFilter && productsGrid) {
-  const originalCards = Array.from(productsGrid.querySelectorAll('.product-card'));
-
-  function filterAndSortProducts() {
-    const searchValue = searchInput.value.toLowerCase().trim();
-    const categoryValue = categoryFilter.value;
-    const sortValue = sortFilter.value;
-
-    let filteredCards = originalCards.filter(card => {
-      const name = (card.dataset.name || '').toLowerCase();
-      const category = (card.dataset.category || '').toLowerCase();
-
-      const matchesSearch = name.includes(searchValue);
-      const matchesCategory = categoryValue === 'all' || category === categoryValue;
-
-      return matchesSearch && matchesCategory;
-    });
-
-    if (sortValue === 'az') {
-      filteredCards.sort((a, b) => a.dataset.name.localeCompare(b.dataset.name, 'es'));
-    }
-
-    if (sortValue === 'za') {
-      filteredCards.sort((a, b) => b.dataset.name.localeCompare(a.dataset.name, 'es'));
-    }
-
-    if (sortValue === 'price-low') {
-      filteredCards.sort((a, b) => Number(a.dataset.price) - Number(b.dataset.price));
-    }
-
-    if (sortValue === 'price-high') {
-      filteredCards.sort((a, b) => Number(b.dataset.price) - Number(a.dataset.price));
-    }
-
-    productsGrid.innerHTML = '';
-    filteredCards.forEach(card => productsGrid.appendChild(card));
-  }
-
-  searchInput.addEventListener('input', filterAndSortProducts);
-  categoryFilter.addEventListener('change', filterAndSortProducts);
-  sortFilter.addEventListener('change', filterAndSortProducts);
+if (searchInput && categoryFilter && sortFilter) {
+  searchInput.addEventListener('input', applyFiltersAndSort);
+  categoryFilter.addEventListener('change', applyFiltersAndSort);
+  sortFilter.addEventListener('change', applyFiltersAndSort);
 }
     document.addEventListener('keydown', (e) => {
       if (window.innerWidth <= 780) return;
@@ -3699,12 +3662,181 @@ message += `Quiero continuar con mi compra.`;
 window.open(url, '_blank');
   });
 }
+const adminAccessBtn = document.getElementById('adminAccessBtn');
+const adminModal = document.getElementById('adminModal');
+const adminClose = document.getElementById('adminClose');
+const adminLoginBtn = document.getElementById('adminLoginBtn');
+const adminLogoutBtn = document.getElementById('adminLogoutBtn');
+const adminLogoutBtnInside = document.getElementById('adminLogoutBtnInside');
+const adminEmail = document.getElementById('adminEmail');
+const adminPassword = document.getElementById('adminPassword');
+const adminStatus = document.getElementById('adminStatus');
+const adminLoginBox = document.getElementById('adminLoginBox');
+const adminPanelBox = document.getElementById('adminPanelBox');
+const adminProducts = document.getElementById('adminProducts');
+const reloadProductsBtn = document.getElementById('reloadProductsBtn');
 
+function openAdminModal(){
+  adminModal.classList.add('show');
+}
+
+function closeAdminModal(){
+  adminModal.classList.remove('show');
+}
+
+function updateAdminUI(user){
+  const allowedEmail = 'vuzalkaoficial@gmail.com';
+
+  isAdmin = !!user && user.email === allowedEmail;
+
+  if (isAdmin) {
+    adminLoginBox.style.display = 'none';
+    adminPanelBox.style.display = 'grid';
+    adminStatus.textContent = `Sesión iniciada como ${user.email}`;
+    renderAdminProducts();
+  } else {
+    adminLoginBox.style.display = 'grid';
+    adminPanelBox.style.display = 'none';
+    adminLogoutBtn.style.display = 'none';
+  }
+}
+
+async function adminLogin(){
+  const email = adminEmail.value.trim();
+  const password = adminPassword.value.trim();
+
+  if (!email || !password) {
+    adminStatus.textContent = 'Debes escribir correo y contraseña.';
+    return;
+  }
+
+  try {
+    adminStatus.textContent = 'Ingresando...';
+    await auth.signInWithEmailAndPassword(email, password);
+    adminStatus.textContent = 'Ingreso exitoso.';
+  } catch (error) {
+    console.error(error);
+    adminStatus.textContent = 'No fue posible iniciar sesión. Revisa correo y contraseña.';
+  }
+}
+
+async function adminLogout(){
+  try {
+    await auth.signOut();
+    adminStatus.textContent = 'Sesión cerrada.';
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+function renderAdminProducts(){
+  if (!adminProducts || !isAdmin) return;
+
+  adminProducts.innerHTML = '';
+
+  products.forEach(product => {
+    const card = document.createElement('div');
+    card.className = 'admin-product-card';
+
+    card.innerHTML = `
+      <div class="admin-product-top">
+        <div class="admin-product-title">${product.name || ''}</div>
+        <div class="admin-status">ID: ${product.id}</div>
+      </div>
+
+      <div class="admin-grid">
+        <div class="admin-field">
+          <label>Precio</label>
+          <input type="number" value="${Number(product.price || 0)}" data-field="price" data-id="${product.id}">
+        </div>
+
+        <div class="admin-field">
+          <label>Stock</label>
+          <input type="number" value="${Number(product.stock || 0)}" data-field="stock" data-id="${product.id}">
+        </div>
+
+        <div class="admin-field">
+          <label>Activo</label>
+          <select data-field="active" data-id="${product.id}">
+            <option value="true" ${product.active !== false ? 'selected' : ''}>Sí</option>
+            <option value="false" ${product.active === false ? 'selected' : ''}>No</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="admin-actions">
+        <button class="btn primary save-product-btn" type="button" data-id="${product.id}">Guardar cambios</button>
+      </div>
+    `;
+
+    adminProducts.appendChild(card);
+  });
+
+  document.querySelectorAll('.save-product-btn').forEach(button => {
+    button.addEventListener('click', async () => {
+      const id = button.dataset.id;
+
+      const priceInput = document.querySelector(`[data-field="price"][data-id="${id}"]`);
+      const stockInput = document.querySelector(`[data-field="stock"][data-id="${id}"]`);
+      const activeInput = document.querySelector(`[data-field="active"][data-id="${id}"]`);
+
+      const newData = {
+        price: Number(priceInput.value || 0),
+        stock: Number(stockInput.value || 0),
+        active: activeInput.value === 'true'
+      };
+
+      try {
+        await db.collection('products').doc(id).update(newData);
+        adminStatus.textContent = `Producto ${id} actualizado correctamente.`;
+        await loadProductsFromFirestore();
+      } catch (error) {
+        console.error(error);
+        adminStatus.textContent = `Error actualizando ${id}.`;
+      }
+    });
+  });
+}
+
+if (adminAccessBtn) {
+  adminAccessBtn.addEventListener('click', openAdminModal);
+}
+
+if (adminClose) {
+  adminClose.addEventListener('click', closeAdminModal);
+}
+
+if (adminModal) {
+  adminModal.addEventListener('click', (e) => {
+    if (e.target === adminModal) closeAdminModal();
+  });
+}
+
+if (adminLoginBtn) {
+  adminLoginBtn.addEventListener('click', adminLogin);
+}
+
+if (adminLogoutBtn) {
+  adminLogoutBtn.addEventListener('click', adminLogout);
+}
+
+if (adminLogoutBtnInside) {
+  adminLogoutBtnInside.addEventListener('click', adminLogout);
+}
+
+if (reloadProductsBtn) {
+  reloadProductsBtn.addEventListener('click', loadProductsFromFirestore);
+}
+
+auth.onAuthStateChanged((user) => {
+  updateAdminUI(user);
+});
 loadCart();
 updateCartUI();
 
-window.addEventListener('load', () => {
+window.addEventListener('load', async () => {
   goToPanel(0);
+  await loadProductsFromFirestore();
 });
 const adminAccessBtn = document.getElementById('adminAccessBtn');
 const adminModal = document.getElementById('adminModal');
