@@ -3609,7 +3609,6 @@ async function createNewProduct(e){
   const size = newProductSize.value.trim();
   const description = newProductDescription.value.trim();
   const image = newProductImage.value.trim();
-  const newProductDescription = document.getElementById('newProductDescription');
   
   if (!name || !price || stock < 0 || !category || !size || !description || !image) {
     adminStatus.textContent = 'Completa todos los campos del nuevo producto.';
