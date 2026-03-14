@@ -2854,6 +2854,72 @@
     </div>
   </div>
 </section>
+  <section class="checkout-modal" id="adminModal">
+  <div class="checkout-box">
+    <div class="checkout-header">
+      <h3>Panel de administrador</h3>
+      <button type="button" class="checkout-close" id="adminClose">×</button>
+    </div>
+
+    <div class="checkout-content">
+      <div class="checkout-summary">
+        <h4>Productos registrados</h4>
+        <div id="adminProductsList" class="checkout-items">
+          <p class="cart-empty">Cargando productos...</p>
+        </div>
+      </div>
+
+      <div class="checkout-form-wrap">
+        <h4>Editar producto</h4>
+
+        <form id="adminProductForm" class="checkout-form">
+          <div class="checkout-field">
+            <label for="adminProductId">ID del producto</label>
+            <input type="text" id="adminProductId" readonly>
+          </div>
+
+          <div class="checkout-field">
+            <label for="adminProductName">Nombre</label>
+            <input type="text" id="adminProductName" required>
+          </div>
+
+          <div class="checkout-field">
+            <label for="adminProductPrice">Precio</label>
+            <input type="number" id="adminProductPrice" required>
+          </div>
+
+          <div class="checkout-field">
+            <label for="adminProductStock">Cantidad disponible</label>
+            <input type="number" id="adminProductStock" required>
+          </div>
+
+          <div class="checkout-field">
+            <label for="adminProductCategory">Categoría</label>
+            <select id="adminProductCategory" required>
+              <option value="masculino">Masculino</option>
+              <option value="unisex">Unisex</option>
+            </select>
+          </div>
+
+          <div class="checkout-field">
+            <label for="adminProductSize">Presentación</label>
+            <input type="text" id="adminProductSize" required>
+          </div>
+
+          <div class="checkout-field">
+            <label for="adminProductImage">Imagen</label>
+            <input type="text" id="adminProductImage" placeholder="assets/nombre-imagen.png" required>
+          </div>
+
+          <div class="checkout-buttons">
+            <button type="button" class="btn" id="newProductBtn">Nuevo producto</button>
+            <button type="submit" class="btn primary">Guardar cambios</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
