@@ -6,16 +6,16 @@
   <title>VUZALKA</title>
   <style>
     :root{
-      --bg:#ffffff;
-      --ink:#171717;
-      --wine:#9f1d24;
-      --soft:#17171712;
-      --dark:#171717;
-      --light:#f4f0ea;
-      --panel:#ffffffb8;
-      --shadow:0 20px 60px rgba(0,0,0,.10);
-    }
-
+  --bg:#ffffff;
+  --ink:#171717;
+  --wine:#9f1d24;
+  --soft:#17171712;
+  --dark:#171717;
+  --light:#f4f0ea;
+  --panel:#ffffffb8;
+  --shadow:0 20px 60px rgba(0,0,0,.10);
+  --mobile-header-height: 0px;
+}
     *{box-sizing:border-box}
     html,body{margin:0;height:100%}
     body{
@@ -1648,8 +1648,10 @@
   }
 
   .site-header{
-  position:sticky;
+  position:fixed;
   top:0;
+  left:0;
+  right:0;
   padding:16px 14px;
   display:flex;
   flex-direction:column;
@@ -1657,7 +1659,7 @@
   justify-content:center;
   gap:14px;
   background:rgba(255,255,255,.96);
-  z-index:50;
+  z-index:60;
   transform:translateY(0);
   transition:transform .25s ease;
 }
@@ -1690,12 +1692,13 @@
   }
 
   .viewport{
-    flex:1 1 auto;
-    height:calc(100dvh - 150px);
-    min-height:0;
-    overflow:hidden;
-    position:relative;
-  }
+  flex:1 1 auto;
+  height:100dvh;
+  min-height:0;
+  overflow:hidden;
+  position:relative;
+  padding-top:var(--mobile-header-height);
+}
 
   .track{
   height:100%;
@@ -2845,7 +2848,22 @@ const db = firebase.firestore();
     const navButtons = document.querySelectorAll('.nav-btn');
     const gotoButtons = document.querySelectorAll('.go-to');
     let currentIndex = 0;
+    const siteHeader = document.querySelector('.site-header');
 
+function updateMobileHeaderHeight() {
+  if (!siteHeader) return;
+
+  if (window.innerWidth <= 780) {
+    document.documentElement.style.setProperty(
+      '--mobile-header-height',
+      `${siteHeader.offsetHeight}px`
+    );
+  } else {
+    document.documentElement.style.setProperty('--mobile-header-height', '0px');
+  }
+}
+
+    
     function goToPanel(index){
   currentIndex = index;
   track.style.transform = `translateX(-${index * 100}vw)`;
@@ -3631,7 +3649,6 @@ if (adminCreateProductForm) {
 
 const siteHeader = document.querySelector('.site-header');
 let lastMobileScrollTop = 0;
-let mobileHeaderLocked = false;
 
 function handleMobileHeaderScroll() {
   if (window.innerWidth > 780 || !siteHeader) return;
@@ -3677,11 +3694,14 @@ loadCart();
 updateCartUI();
 
 window.addEventListener('load', async () => {
+  updateMobileHeaderHeight();
   goToPanel(0);
   bindPanelScrollForMobileHeader();
   await loadProductsFromFirestore();
 });
-
+window.addEventListener('resize', () => {
+  updateMobileHeaderHeight();
+});
   </script>
   
 </body>
