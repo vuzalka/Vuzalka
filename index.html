@@ -3089,9 +3089,9 @@
       </div>
 
       <div class="admin-field">
-        <label for="newProductImage">Imagen</label>
-        <input type="file" id="newProductImage" accept="image/*" required>
-      </div>
+  <label for="newProductImage">Ruta automática de imagen</label>
+  <input type="text" id="newProductImage" placeholder="Se genera automáticamente" readonly>
+</div>
     </div>
 
     <div class="admin-field">
@@ -3677,6 +3677,36 @@ const newProductImage = document.getElementById('newProductImage');
 const newProductDescription = document.getElementById('newProductDescription');
 const createProductBtn = document.getElementById('createProductBtn');
 
+function slugifyProductName(name) {
+  return name
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/ñ/g, 'n')
+    .replace(/[^a-z0-9\s-]/g, '')
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+}
+
+function updateAutoImagePath() {
+  if (!newProductName || !newProductImage) return;
+
+  const name = newProductName.value.trim();
+
+  if (!name) {
+    newProductImage.value = '';
+    return;
+  }
+
+  const slug = slugifyProductName(name);
+  newProductImage.value = `assets/${slug}.png`;
+}
+
+if (newProductName) {
+  newProductName.addEventListener('input', updateAutoImagePath);
+}
+    
 function openAdminModal(){
   adminModal.classList.add('show');
 }
@@ -3753,7 +3783,7 @@ async function createNewProduct(e){
   const category = newProductCategory.value;
   const size = newProductSize.value.trim();
   const description = newProductDescription.value.trim();
-  const imageFile = newProductImage.files[0];
+  const image = newProductImage.value.trim();
 
   if (!name || !price || stock < 0 || !category || !size || !description || !imageFile) {
     adminStatus.textContent = 'Completa todos los campos del nuevo producto.';
