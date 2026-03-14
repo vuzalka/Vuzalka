@@ -1870,12 +1870,27 @@
     max-width:100%;
     margin-top:12px;
   }
-
+.catalog-cart-wrap{
+  margin-top:24px;
+  display:flex;
+  justify-content:center;
+}
   .catalog-toolbar{
     flex-direction:column;
     align-items:stretch;
   }
+.catalog-search{
+  flex:none;
+}
 
+.catalog-cart-wrap{
+  margin-top:8px;
+  width:100%;
+}
+
+.catalog-cart-wrap .btn{
+  width:100%;
+}
   .catalog-filters{
     flex-direction:column;
   }
@@ -2535,7 +2550,7 @@
   <div class="catalog-search">
     <input type="text" id="searchInput" placeholder="Buscar perfume por nombre">
   </div>
-<div style="margin-top:24px; display:flex; justify-content:center;">
+<div class="catalog-cart-wrap">
   <button class="btn primary" id="openCartFromCatalog" type="button">Ver carrito y finalizar pedido</button>
 </div>
   <div class="catalog-filters">
