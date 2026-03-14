@@ -2161,6 +2161,83 @@
     border:none;
   }
 }
+.admin-banner-card{
+  border:1px solid rgba(23,23,23,.10);
+  padding:20px;
+  background:#faf8f4;
+  display:grid;
+  gap:18px;
+}
+
+.admin-banner-grid{
+  display:grid;
+  grid-template-columns:.95fr 1.05fr;
+  gap:18px;
+  align-items:stretch;
+}
+
+.admin-banner-left,
+.admin-banner-right{
+  display:grid;
+  gap:14px;
+}
+
+.admin-banner-preview-image{
+  min-height:320px;
+  border:1px solid rgba(23,23,23,.10);
+  background:linear-gradient(180deg,#161616 0%, #090909 100%);
+  color:rgba(255,255,255,.55);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:20px;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:22px;
+}
+
+.admin-banner-right{
+  border:1px solid rgba(23,23,23,.08);
+  background:#111;
+  padding:18px;
+}
+
+.admin-banner-right .admin-field label{
+  color:rgba(244,240,234,.72);
+}
+
+.admin-banner-right input,
+.admin-banner-right textarea{
+  width:100%;
+  padding:14px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.03);
+  color:#f4f0ea;
+  font-size:14px;
+  outline:none;
+}
+
+.admin-banner-right input::placeholder,
+.admin-banner-right textarea::placeholder{
+  color:rgba(244,240,234,.38);
+}
+
+.admin-banner-right input:focus,
+.admin-banner-right textarea:focus{
+  border-color:rgba(159,29,36,.45);
+  box-shadow:0 0 0 3px rgba(159,29,36,.10);
+}
+
+@media (max-width: 780px){
+  .admin-banner-grid{
+    grid-template-columns:1fr;
+  }
+
+  .admin-banner-preview-image{
+    min-height:240px;
+  }
+}
+
     @media (max-width: 780px){
   .hero-video{
     display:none;
@@ -2933,6 +3010,72 @@
     <button class="btn" id="reloadProductsBtn" type="button">Recargar productos</button>
     <button class="btn wine" id="adminLogoutBtnInside" type="button">Cerrar sesión</button>
   </div>
+<section class="admin-banner-card">
+  <div class="admin-product-top">
+    <div class="admin-product-title">Banner principal de inicio</div>
+    <div class="admin-status">Interfaz visual para futuras novedades, avisos y anuncios</div>
+  </div>
+
+  <div class="admin-banner-grid">
+    <div class="admin-banner-left">
+      <div class="admin-field">
+        <label for="adminBannerImage">Ruta de imagen</label>
+        <input
+          type="text"
+          id="adminBannerImage"
+          placeholder="Ej: assets/afnan-9pm-nuevo.png"
+        >
+      </div>
+
+      <div class="admin-banner-preview-image">
+        Vista previa de imagen
+      </div>
+    </div>
+
+    <div class="admin-banner-right">
+      <div class="admin-field">
+        <label for="adminBannerEyebrow">Texto superior</label>
+        <input
+          type="text"
+          id="adminBannerEyebrow"
+          placeholder="Ej: Colección / Novedad / Aviso"
+        >
+      </div>
+
+      <div class="admin-field">
+        <label for="adminBannerTitle">Título principal</label>
+        <input
+          type="text"
+          id="adminBannerTitle"
+          placeholder="Ej: Signature"
+        >
+      </div>
+
+      <div class="admin-field">
+        <label for="adminBannerText">Mensaje principal</label>
+        <textarea
+          id="adminBannerText"
+          rows="5"
+          placeholder="Escribe aquí el mensaje principal que se mostrará en el lado derecho del banner."
+        ></textarea>
+      </div>
+
+      <div class="admin-field">
+        <label for="adminBannerBottom">Texto inferior</label>
+        <input
+          type="text"
+          id="adminBannerBottom"
+          placeholder="Ej: Masculinidad elegante con un matiz sensual."
+        >
+      </div>
+    </div>
+  </div>
+
+  <div class="admin-actions">
+    <button class="btn primary" type="button">Guardar banner</button>
+    <button class="btn" type="button">Limpiar campos</button>
+  </div>
+</section>
 
   <form id="adminCreateProductForm" class="admin-product-card">
     <div class="admin-product-top">
