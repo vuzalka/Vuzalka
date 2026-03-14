@@ -1782,12 +1782,82 @@
   }
 
   .benefits-premium,
-  .products-grid,
-  .info-grid,
-  .contact-wrap{
-    grid-template-columns:1fr;
-  }
+.info-grid,
+.contact-wrap{
+  grid-template-columns:1fr;
+}
 
+.products-grid{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:12px;
+}
+.products-grid{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:12px;
+}
+.product-card{
+  padding:10px;
+}
+
+.product-photo{
+  aspect-ratio: 3 / 4;
+}
+
+.product-head{
+  margin-top:10px;
+  gap:8px;
+  align-items:flex-start;
+}
+
+.product-card h3{
+  font-size:18px;
+  line-height:1.1;
+}
+
+.meta{
+  margin-top:6px;
+  font-size:11px;
+  line-height:1.4;
+}
+
+.price{
+  padding:6px 8px;
+  font-size:11px;
+}
+
+.vibe{
+  margin-top:10px;
+  font-size:10px;
+  letter-spacing:.08em;
+}
+
+.product-stock{
+  margin-top:10px;
+  padding-top:10px;
+  gap:8px;
+}
+
+.stock-status{
+  font-size:10px;
+  letter-spacing:.05em;
+}
+
+.stock-amount{
+  font-size:11px;
+}
+
+.product-actions{
+  margin-top:12px;
+}
+
+.add-to-cart{
+  min-height:40px;
+  padding:10px 8px;
+  font-size:10px;
+  letter-spacing:.10em;
+}
   .benefit-card{
     min-height:auto;
   }
@@ -1820,18 +1890,61 @@
   .info-card h3{
     font-size:24px;
   }
+.product-card{
+  padding:10px;
+}
 
+.product-photo{
+  aspect-ratio: 4 / 4.6;
+}
+
+.product-card h3{
+  font-size:16px;
+  line-height:1.1;
+}
+
+.meta{
+  font-size:10px;
+  margin-top:6px;
+}
+
+.price{
+  font-size:10px;
+  padding:5px 7px;
+}
+
+.vibe{
+  font-size:9px;
+  margin-top:10px;
+}
+
+.product-stock{
+  margin-top:10px;
+  padding-top:10px;
+  gap:8px;
+}
+
+.stock-status,
+.stock-amount{
+  font-size:10px;
+}
+
+.product-actions{
+  margin-top:12px;
+}
+
+.add-to-cart{
+  font-size:9px;
+  min-height:38px;
+  padding:8px 6px;
+}
   .hero-copy h2{
     font-size:38px;
   }
 
   .product-info-overlay{
-    opacity:1;
-    transform:none;
-    position:relative;
-    inset:auto;
-    background:linear-gradient(180deg, rgba(23,23,23,.94) 0%, rgba(23,23,23,.98) 100%);
-  }
+  display:none;
+}
 
   .mobile-hint{
     display:none;
@@ -1878,6 +1991,44 @@
   .pay-badge{
     min-width:auto;
     flex:1 1 calc(50% - 8px);
+  }
+}
+    @media (min-width: 560px) and (max-width: 780px){
+  .products-grid{
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+    gap:12px;
+  }
+
+  .product-card{
+    padding:10px;
+  }
+
+  .product-card h3{
+    font-size:16px;
+  }
+
+  .meta{
+    font-size:10px;
+  }
+
+  .price{
+    font-size:10px;
+    padding:5px 7px;
+  }
+
+  .vibe{
+    font-size:9px;
+  }
+
+  .stock-status,
+  .stock-amount{
+    font-size:10px;
+  }
+
+  .add-to-cart{
+    font-size:9px;
+    min-height:38px;
+    padding:8px 6px;
   }
 }
     .admin-product-row{
