@@ -1856,6 +1856,171 @@
     flex:1 1 calc(50% - 8px);
   }
 }
+    .admin-product-row{
+  border:1px solid rgba(23,23,23,.08);
+  background:#fff;
+  padding:14px;
+  display:grid;
+  gap:10px;
+}
+
+.admin-product-row h5{
+  margin:0;
+  font-size:16px;
+  font-family:Georgia,"Times New Roman",serif;
+  font-weight:500;
+}
+
+.admin-product-row p{
+  margin:0;
+  font-size:13px;
+  color:rgba(23,23,23,.68);
+  line-height:1.5;
+}
+
+.admin-row-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+    .admin-modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.50);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:1200;
+  padding:24px;
+}
+
+.admin-modal.show{
+  display:flex;
+}
+
+.admin-box{
+  width:min(1100px, 100%);
+  max-height:90vh;
+  overflow:auto;
+  background:#fff;
+  border:1px solid rgba(23,23,23,.10);
+  box-shadow:0 30px 80px rgba(0,0,0,.20);
+}
+
+.admin-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px 24px;
+  border-bottom:1px solid rgba(23,23,23,.08);
+}
+
+.admin-header h3{
+  margin:0;
+  font-size:30px;
+  font-family:Georgia,"Times New Roman",serif;
+  font-weight:500;
+}
+
+.admin-close{
+  border:none;
+  background:transparent;
+  font-size:30px;
+  cursor:pointer;
+}
+
+.admin-content{
+  padding:24px;
+}
+
+.admin-login,
+.admin-panel{
+  display:grid;
+  gap:18px;
+}
+
+.admin-field{
+  display:grid;
+  gap:8px;
+}
+
+.admin-field label{
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  color:rgba(23,23,23,.65);
+}
+
+.admin-field input,
+.admin-field select{
+  width:100%;
+  padding:14px;
+  border:1px solid rgba(23,23,23,.12);
+  font-size:14px;
+  outline:none;
+}
+
+.admin-products{
+  display:grid;
+  gap:14px;
+  margin-top:10px;
+}
+
+.admin-product-card{
+  border:1px solid rgba(23,23,23,.10);
+  padding:16px;
+  display:grid;
+  gap:12px;
+  background:#faf8f4;
+}
+
+.admin-product-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.admin-product-title{
+  font-size:20px;
+  font-family:Georgia,"Times New Roman",serif;
+  font-weight:500;
+}
+
+.admin-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.admin-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.admin-status{
+  font-size:13px;
+  color:rgba(23,23,23,.68);
+}
+
+@media (max-width: 780px){
+  .admin-grid{
+    grid-template-columns:1fr;
+  }
+
+  .admin-modal{
+    padding:0;
+  }
+
+  .admin-box{
+    width:100%;
+    height:100dvh;
+    max-height:100dvh;
+    border:none;
+  }
+}
   </style>
 </head>
 <body>
@@ -2177,7 +2342,7 @@
     </select>
   </div>
 </div>
-            <div class="products-grid">
+            <div class="products-grid" id="productsGrid">
               <article class="product-card" data-name="AFNAN 9PM" data-category="masculino" data-price="220000">
                 <div class="product-photo">
   <img src="assets/afnan-9pm.png" alt="AFNAN 9PM">
@@ -2920,6 +3085,46 @@
     </div>
   </div>
 </section>
+<section class="admin-modal" id="adminModal">
+  <div class="admin-box">
+    <div class="admin-header">
+      <h3>Panel administrador</h3>
+      <button type="button" class="admin-close" id="adminClose">×</button>
+    </div>
+
+    <div class="admin-content">
+      <div id="adminLoginBox" class="admin-login">
+        <div class="admin-field">
+          <label for="adminEmail">Correo</label>
+          <input type="email" id="adminEmail" placeholder="tu correo">
+        </div>
+
+        <div class="admin-field">
+          <label for="adminPassword">Contraseña</label>
+          <input type="password" id="adminPassword" placeholder="tu contraseña">
+        </div>
+
+        <div class="admin-actions">
+          <button class="btn primary" id="adminLoginBtn" type="button">Ingresar</button>
+          <button class="btn" id="adminLogoutBtn" type="button" style="display:none;">Cerrar sesión</button>
+        </div>
+
+        <div class="admin-status" id="adminStatus">
+          Inicia sesión para administrar productos.
+        </div>
+      </div>
+
+      <div id="adminPanelBox" class="admin-panel" style="display:none;">
+        <div class="admin-actions">
+          <button class="btn" id="reloadProductsBtn" type="button">Recargar productos</button>
+          <button class="btn wine" id="adminLogoutBtnInside" type="button">Cerrar sesión</button>
+        </div>
+
+        <div id="adminProducts" class="admin-products"></div>
+      </div>
+    </div>
+  </div>
+</section>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
@@ -3002,7 +3207,7 @@
 const searchInput = document.getElementById('searchInput');
 const categoryFilter = document.getElementById('categoryFilter');
 const sortFilter = document.getElementById('sortFilter');
-const productsGrid = document.querySelector('.products-grid');
+const productsGrid = document.getElementById('productsGrid');
 
 if (searchInput && categoryFilter && sortFilter && productsGrid) {
   const originalCards = Array.from(productsGrid.querySelectorAll('.product-card'));
@@ -3072,7 +3277,179 @@ const checkoutTotal = document.getElementById('checkoutTotal');
 const checkoutForm = document.getElementById('checkoutForm');
 
 let cart = [];
+let products = [];
+let isAdmin = false;
 
+function getStockStatus(stock){
+  if (stock <= 0) {
+    return {
+      className: 'out-stock',
+      text: 'Agotado'
+    };
+  }
+
+  if (stock <= 3) {
+    return {
+      className: 'low-stock',
+      text: 'Pocas unidades'
+    };
+  }
+
+  return {
+    className: 'in-stock',
+    text: 'Disponible'
+  };
+}
+
+function createProductCard(product){
+  const stockInfo = getStockStatus(Number(product.stock || 0));
+  const safePrice = Number(product.price || 0);
+  const safeStock = Number(product.stock || 0);
+
+  const article = document.createElement('article');
+  article.className = 'product-card';
+  article.dataset.name = product.name || '';
+  article.dataset.category = product.category || '';
+  article.dataset.price = safePrice;
+
+  article.innerHTML = `
+    <div class="product-photo">
+      <img src="${product.image || ''}" alt="${product.name || ''}">
+      <div class="product-info-overlay">
+        <h4>Perfil olfativo</h4>
+        <p>${product.description || 'Fragancia premium disponible en VUZALKA.'}</p>
+      </div>
+    </div>
+
+    <div class="product-head">
+      <div>
+        <h3>${product.name || ''}</h3>
+        <div class="meta">${product.size || ''}</div>
+      </div>
+      <div class="price">${formatPrice(safePrice)}</div>
+    </div>
+
+    <div class="vibe">${product.category || 'premium'}</div>
+
+    <div class="product-stock">
+      <div class="stock-status ${stockInfo.className}">
+        <span class="stock-dot"></span>
+        ${stockInfo.text}
+      </div>
+      <div class="stock-amount">
+        Disponibles: <strong>${safeStock}</strong>
+      </div>
+    </div>
+
+    <div class="product-actions">
+      <button
+        class="btn add-to-cart"
+        type="button"
+        data-id="${product.id}"
+        data-name="${product.name || ''}"
+        data-price="${safePrice}"
+        data-image="${product.image || ''}"
+        data-size="${product.size || ''}"
+        ${safeStock <= 0 ? 'disabled' : ''}
+      >
+        ${safeStock <= 0 ? 'Agotado' : 'Agregar al carrito'}
+      </button>
+    </div>
+  `;
+
+  return article;
+}
+
+function renderProducts(productsToRender){
+  if (!productsGrid) return;
+
+  productsGrid.innerHTML = '';
+
+  productsToRender.forEach(product => {
+    if (product.active === false) return;
+    productsGrid.appendChild(createProductCard(product));
+  });
+
+  attachAddToCartEvents();
+}
+
+function attachAddToCartEvents(){
+  const buttons = document.querySelectorAll('.add-to-cart');
+
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      const productId = button.dataset.id;
+      const currentProduct = products.find(p => p.id === productId);
+
+      if (!currentProduct) return;
+
+      if (Number(currentProduct.stock || 0) <= 0) {
+        alert('Este producto está agotado.');
+        return;
+      }
+
+      const product = {
+        id: currentProduct.id,
+        name: currentProduct.name,
+        price: Number(currentProduct.price),
+        image: currentProduct.image,
+        size: currentProduct.size
+      };
+
+      addToCart(product);
+    });
+  });
+}
+
+async function loadProductsFromFirestore(){
+  try {
+    const snapshot = await db.collection('products').get();
+
+    products = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+
+    renderProducts(products);
+    renderAdminProducts();
+  } catch (error) {
+    console.error('Error cargando productos:', error);
+  }
+}
+
+function applyFiltersAndSort(){
+  const searchValue = (searchInput?.value || '').toLowerCase().trim();
+  const categoryValue = categoryFilter?.value || 'all';
+  const sortValue = sortFilter?.value || 'default';
+
+  let filtered = products.filter(product => {
+    const name = (product.name || '').toLowerCase();
+    const category = (product.category || '').toLowerCase();
+
+    const matchesSearch = name.includes(searchValue);
+    const matchesCategory = categoryValue === 'all' || category === categoryValue;
+
+    return matchesSearch && matchesCategory;
+  });
+
+  if (sortValue === 'az') {
+    filtered.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'es'));
+  }
+
+  if (sortValue === 'za') {
+    filtered.sort((a, b) => (b.name || '').localeCompare(a.name || '', 'es'));
+  }
+
+  if (sortValue === 'price-low') {
+    filtered.sort((a, b) => Number(a.price || 0) - Number(b.price || 0));
+  }
+
+  if (sortValue === 'price-high') {
+    filtered.sort((a, b) => Number(b.price || 0) - Number(a.price || 0));
+  }
+
+  renderProducts(filtered);
+}
 function formatPrice(value) {
   return '$' + Number(value).toLocaleString('es-CO');
 }
