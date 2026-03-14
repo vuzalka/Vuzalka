@@ -2825,24 +2825,39 @@
       </div>
     </div>
   </div>
+  <section class="checkout-modal" id="adminModal">
+  <div class="checkout-box" style="max-width:520px;">
+    <div class="checkout-header">
+      <h3>Acceso administrador</h3>
+      <button type="button" class="checkout-close" id="adminClose">×</button>
+    </div>
+
+    <div class="checkout-form-wrap">
+      <form id="adminLoginForm" class="checkout-form">
+        <div class="checkout-field">
+          <label for="adminEmail">Correo</label>
+          <input type="email" id="adminEmail" required>
+        </div>
+
+        <div class="checkout-field">
+          <label for="adminPassword">Contraseña</label>
+          <input type="password" id="adminPassword" required>
+        </div>
+
+        <div class="checkout-buttons">
+          <button type="button" class="btn" id="adminCancel">Cancelar</button>
+          <button type="submit" class="btn primary">Ingresar</button>
+        </div>
+      </form>
+
+      <p id="adminMessage" style="margin-top:14px; color:#9f1d24;"></p>
+    </div>
+  </div>
+</section>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<script>
-  const firebaseConfig = {
-    apiKey: "TU_API_KEY",
-    authDomain: "TU_AUTH_DOMAIN",
-    projectId: "TU_PROJECT_ID",
-    storageBucket: "TU_STORAGE_BUCKET",
-    messagingSenderId: "TU_MESSAGING_SENDER_ID",
-    appId: "TU_APP_ID"
-  };
 
-  firebase.initializeApp(firebaseConfig);
-
-  const auth = firebase.auth();
-  const db = firebase.firestore();
-</script>
 <script>
   const firebaseConfig = {
     apiKey: "AIzaSyBYlGCt2LhuArZeUGmvA0jfPnLfo0iVlFU",
@@ -3248,7 +3263,62 @@ updateCartUI();
 window.addEventListener('load', () => {
   goToPanel(0);
 });
+const adminAccessBtn = document.getElementById('adminAccessBtn');
+const adminModal = document.getElementById('adminModal');
+const adminClose = document.getElementById('adminClose');
+const adminCancel = document.getElementById('adminCancel');
+const adminLoginForm = document.getElementById('adminLoginForm');
+const adminMessage = document.getElementById('adminMessage');
 
+function openAdminModal() {
+  adminModal.classList.add('show');
+}
+
+function closeAdminModal() {
+  adminModal.classList.remove('show');
+  adminMessage.textContent = '';
+}
+
+if (adminAccessBtn) {
+  adminAccessBtn.addEventListener('click', openAdminModal);
+}
+
+if (adminClose) {
+  adminClose.addEventListener('click', closeAdminModal);
+}
+
+if (adminCancel) {
+  adminCancel.addEventListener('click', closeAdminModal);
+}
+
+if (adminModal) {
+  adminModal.addEventListener('click', (e) => {
+    if (e.target === adminModal) closeAdminModal();
+  });
+}
+
+if (adminLoginForm) {
+  adminLoginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById('adminEmail').value.trim();
+    const password = document.getElementById('adminPassword').value.trim();
+
+    try {
+      await auth.signInWithEmailAndPassword(email, password);
+      adminMessage.style.color = '#1f6b3b';
+      adminMessage.textContent = 'Acceso correcto.';
+      setTimeout(() => {
+        closeAdminModal();
+        alert('Ya ingresaste como administrador.');
+      }, 800);
+    } catch (error) {
+      adminMessage.style.color = '#9f1d24';
+      adminMessage.textContent = 'Error al iniciar sesión: ' + error.message;
+      console.error(error);
+    }
+  });
+}
   </script>
   
 </body>
