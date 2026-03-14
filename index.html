@@ -1999,7 +1999,7 @@
 
 .admin-grid{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:repeat(4,1fr);
   gap:12px;
 }
 
@@ -3649,64 +3649,115 @@ function renderAdminProducts(){
     card.className = 'admin-product-card';
 
     card.innerHTML = `
-      <div class="admin-product-top">
-        <div class="admin-product-title">${product.name || ''}</div>
-        <div class="admin-status">ID: ${product.id}</div>
-      </div>
+  <div class="admin-product-top">
+    <div class="admin-product-title">${product.name || ''}</div>
+    <div class="admin-status">ID: ${product.id}</div>
+  </div>
 
-      <div class="admin-grid">
-        <div class="admin-field">
-          <label>Precio</label>
-          <input type="number" value="${Number(product.price || 0)}" data-field="price" data-id="${product.id}">
-        </div>
+  <div class="admin-grid">
+    <div class="admin-field">
+      <label>Nombre</label>
+      <input type="text" value="${product.name || ''}" data-field="name" data-id="${product.id}">
+    </div>
 
-        <div class="admin-field">
-          <label>Stock</label>
-          <input type="number" value="${Number(product.stock || 0)}" data-field="stock" data-id="${product.id}">
-        </div>
+    <div class="admin-field">
+      <label>Precio</label>
+      <input type="number" value="${Number(product.price || 0)}" data-field="price" data-id="${product.id}">
+    </div>
 
-        <div class="admin-field">
-          <label>Activo</label>
-          <select data-field="active" data-id="${product.id}">
-            <option value="true" ${product.active !== false ? 'selected' : ''}>Sí</option>
-            <option value="false" ${product.active === false ? 'selected' : ''}>No</option>
-          </select>
-        </div>
-      </div>
+    <div class="admin-field">
+      <label>Stock</label>
+      <input type="number" value="${Number(product.stock || 0)}" data-field="stock" data-id="${product.id}">
+    </div>
 
-      <div class="admin-actions">
-        <button class="btn primary save-product-btn" type="button" data-id="${product.id}">Guardar cambios</button>
-        <button class="btn delete-product-btn" type="button" data-id="${product.id}" data-name="${product.name || ''}">Eliminar</button>
-      </div>
-    `;
+    <div class="admin-field">
+      <label>Categoría</label>
+      <select data-field="category" data-id="${product.id}">
+        <option value="masculino" ${(product.category || '') === 'masculino' ? 'selected' : ''}>Masculino</option>
+        <option value="unisex" ${(product.category || '') === 'unisex' ? 'selected' : ''}>Unisex</option>
+      </select>
+    </div>
+
+    <div class="admin-field">
+      <label>Presentación</label>
+      <input type="text" value="${product.size || ''}" data-field="size" data-id="${product.id}">
+    </div>
+
+    <div class="admin-field">
+      <label>Imagen</label>
+      <input type="text" value="${product.image || ''}" data-field="image" data-id="${product.id}">
+    </div>
+
+    <div class="admin-field" style="grid-column:1 / -1;">
+      <label>Descripción</label>
+      <input type="text" value="${product.description || ''}" data-field="description" data-id="${product.id}">
+    </div>
+
+    <div class="admin-field">
+      <label>Activo</label>
+      <select data-field="active" data-id="${product.id}">
+        <option value="true" ${product.active !== false ? 'selected' : ''}>Sí</option>
+        <option value="false" ${product.active === false ? 'selected' : ''}>No</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="admin-actions">
+    <button class="btn primary save-product-btn" type="button" data-id="${product.id}">Guardar cambios</button>
+    <button class="btn delete-product-btn" type="button" data-id="${product.id}" data-name="${product.name || ''}">Eliminar</button>
+  </div>
+`;
 
     adminProducts.appendChild(card);
   });
 
   document.querySelectorAll('.save-product-btn').forEach(button => {
-    button.addEventListener('click', async () => {
-      const id = button.dataset.id;
+  button.addEventListener('click', async () => {
+    const id = button.dataset.id;
 
-      const priceInput = document.querySelector(`[data-field="price"][data-id="${id}"]`);
-      const stockInput = document.querySelector(`[data-field="stock"][data-id="${id}"]`);
-      const activeInput = document.querySelector(`[data-field="active"][data-id="${id}"]`);
+    const nameInput = document.querySelector(`[data-field="name"][data-id="${id}"]`);
+    const priceInput = document.querySelector(`[data-field="price"][data-id="${id}"]`);
+    const stockInput = document.querySelector(`[data-field="stock"][data-id="${id}"]`);
+    const categoryInput = document.querySelector(`[data-field="category"][data-id="${id}"]`);
+    const sizeInput = document.querySelector(`[data-field="size"][data-id="${id}"]`);
+    const imageInput = document.querySelector(`[data-field="image"][data-id="${id}"]`);
+    const descriptionInput = document.querySelector(`[data-field="description"][data-id="${id}"]`);
+    const activeInput = document.querySelector(`[data-field="active"][data-id="${id}"]`);
 
-      const newData = {
-        price: Number(priceInput.value || 0),
-        stock: Number(stockInput.value || 0),
-        active: activeInput.value === 'true'
-      };
+    const newData = {
+      name: nameInput.value.trim(),
+      price: Number(priceInput.value || 0),
+      stock: Number(stockInput.value || 0),
+      category: categoryInput.value,
+      size: sizeInput.value.trim(),
+      image: imageInput.value.trim(),
+      description: descriptionInput.value.trim(),
+      active: activeInput.value === 'true'
+    };
 
-      try {
-        await db.collection('products').doc(id).update(newData);
-        adminStatus.textContent = `Producto ${id} actualizado correctamente.`;
-        await loadProductsFromFirestore();
-      } catch (error) {
-        console.error(error);
-        adminStatus.textContent = `Error actualizando ${id}.`;
-      }
-    });
+    if (
+      !newData.name ||
+      !newData.category ||
+      !newData.size ||
+      !newData.image ||
+      !newData.description ||
+      newData.price <= 0 ||
+      newData.stock < 0
+    ) {
+      adminStatus.textContent = 'Completa correctamente todos los campos antes de guardar.';
+      return;
+    }
+
+    try {
+      await db.collection('products').doc(id).update(newData);
+      adminStatus.textContent = `Producto "${newData.name}" actualizado correctamente.`;
+      await loadProductsFromFirestore();
+    } catch (error) {
+      console.error(error);
+      adminStatus.textContent = `Error actualizando el producto.`;
+    }
   });
+});
 
   document.querySelectorAll('.delete-product-btn').forEach(button => {
     button.addEventListener('click', async () => {
